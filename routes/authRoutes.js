@@ -43,24 +43,10 @@ Router.post(
         });
       }
 
-      let payload = {
-        user: {
-          id: email,
-        },
-      };
-
-      let accessToken = generateAccessToken(payload);
-      let refreshToken = generateRefreshToken(payload);
-
       //creates a user if the details given are valid
-      user = await User.create({ ...req.body, refresh_token: refreshToken });
-      console.log(user);
+      user = await User.create(req.body);
 
-      res
-        .status(200)
-        .cookie("accessToken", accessToken, { httponly: true })
-        .cookie("refreshToken", refreshToken, { httponly: true })
-        .send({ accessToken, refreshToken, msg: "User Created" });
+      res.status(200).send({ msg: "User Created" });
     } catch (err) {
       console.log(err);
       res.status(500).send({ errors: [{ msg: "Server Error" }] });
@@ -156,7 +142,7 @@ Router.post("/token", async (req, res, next) => {
 
     res
       .status(200)
-      .cookie("accessToken", accessToken, { httponly: true })
+      .cookie("accessToken", accessToken, { httponly: true, overwrite: true })
       .send({ accessToken, msg: "Access token successfully refreshed" });
   } catch (err) {
     res.status(500).send({ errors: [{ msg: "Server Error" }] });
