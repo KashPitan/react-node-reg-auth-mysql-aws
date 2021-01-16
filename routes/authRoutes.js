@@ -1,21 +1,18 @@
 const Express = require("express");
 const User = require("../models/UserModel");
 const Router = Express.Router();
-const jwt = require("jsonwebtoken");
-const { check, body, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const Bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 const validatePasswords = require("../middleware/validatePasswords");
 
 const {
-  auth,
   generateAccessToken,
   generateRefreshToken,
 } = require("../middleware/auth");
 
 dotenv.config();
 
-const jwtSecret = process.env.JWT_SECRET;
 //when the user registers
 Router.post(
   "/register",
@@ -46,16 +43,18 @@ Router.post(
         });
       }
 
-      //creates a user if the details given are valid
-      user = await User.create(req.body);
       let payload = {
         user: {
-          id: user.id,
+          id: email,
         },
       };
 
       let accessToken = generateAccessToken(payload);
       let refreshToken = generateRefreshToken(payload);
+
+      //creates a user if the details given are valid
+      user = await User.create({ ...req.body, refresh_token: refreshToken });
+      console.log(user);
 
       res
         .status(200)
@@ -99,7 +98,7 @@ Router.post(
       if (passwordMatch) {
         let payload = {
           user: {
-            email: user.email,
+            id: email,
           },
         };
 
@@ -124,17 +123,44 @@ Router.post(
   }
 );
 
-//get personal user data: route protected
-Router.get("/me", auth, async (req, res, next) => {
-  console.log("/me");
-  //get cookies
-  const { accessToken, refreshToken } = req.cookies;
-  res.status(200).send(req.user);
-});
-
 Router.post("/token", async (req, res, next) => {
   const refreshToken = req.body.token;
-  res.send();
+
+  if (refreshToken === null) return res.status(401);
+  try {
+    //get email from request body
+    const email = req.body.id;
+    //checks to see if the user with the input email exists
+    let user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).send({
+        errors: [{ msg: "Account does not exist" }],
+      });
+    }
+
+    //check refresh token matches the one from the account before
+    //creating a new access token
+    const refreshTokenFromDB = user.refresh_token;
+    if (refreshTokenFromDB !== refreshToken) {
+      return res.status(400).send({
+        errors: [{ msg: "Refresh token is not valid" }],
+      });
+    }
+
+    let payload = {
+      user: {
+        email: email,
+      },
+    };
+    let accessToken = generateAccessToken(payload);
+
+    res
+      .status(200)
+      .cookie("accessToken", accessToken, { httponly: true })
+      .send({ accessToken, msg: "Access token successfully refreshed" });
+  } catch (err) {
+    res.status(500).send({ errors: [{ msg: "Server Error" }] });
+  }
 });
 
 module.exports = Router;

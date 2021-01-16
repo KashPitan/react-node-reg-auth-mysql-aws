@@ -20,6 +20,10 @@ const User = sequelize.define(
       unique: true,
       allowNull: false,
     },
+    refresh_token: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   },
   {
     hooks: {

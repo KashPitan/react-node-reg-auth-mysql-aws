@@ -6,7 +6,7 @@ const Navbar = () => {
       <nav>
         <div className="nav-wrapper">
           <a href="#" className="brand-logo">
-            FillMe
+            Rave
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
@@ -16,7 +16,7 @@ const Navbar = () => {
               <a href="/login">Login</a>
             </li>
             <li>
-              <a href="#">Link 3</a>
+              <a href="#">My Profile</a>
             </li>
           </ul>
         </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
-import Registration from "./Components/Registration";
-import Login from "./Components/Login";
-import Navbar from "./Components/Navbar";
+import Registration from "./pages/Registration";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
@@ -15,6 +15,9 @@ const App = () => {
             <Registration />
           </Route>
           <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
             <Login />
           </Route>
         </Switch>

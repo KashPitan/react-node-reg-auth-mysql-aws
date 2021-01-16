@@ -41,7 +41,6 @@ function auth(req, res, next) {
 }
 
 function generateAccessToken(user) {
-  console.log("test2");
   return jwt.sign(user, jwtSecret, { expiresIn: 360000 });
 }
 

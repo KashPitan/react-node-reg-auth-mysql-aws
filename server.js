@@ -5,6 +5,7 @@ dotenv.config();
 const { Sequelize } = require("sequelize");
 
 const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
 const BodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -39,6 +40,7 @@ App.use(cookieParser());
 
 //routes from routes folder
 App.use("/user", authRoutes);
+App.use("/profile", profileRoutes);
 
 App.listen(process.env.PORT || 4000, function () {
   if (process.env.PORT) {
