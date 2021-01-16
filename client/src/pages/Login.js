@@ -17,11 +17,12 @@ const Login = () => {
 
     try {
       let res = await axios.post("/user/login", formDetails);
-      if (res.status != 200) {
-        M.toast({ html: res.msg });
+      if (res.status !== 200) {
+        M.toast({ html: res.data.msg });
       }
-      console.log(res.json());
-      M.toast({ html: res.msg });
+      console.log("test");
+
+      M.toast({ html: res.data.msg });
     } catch (err) {
       console.log(err.response.data);
       err.response.data.errors.forEach((element) => {
