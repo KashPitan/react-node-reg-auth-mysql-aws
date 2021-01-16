@@ -1,5 +1,5 @@
-GET http://localhost:3000/user/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY1MjFmZGU2YmRkMmRjMDBjOTgwMDQ0In0sImlhdCI6MTU5OTIxNzcyNCwiZXhwIjoxNTk5NTc3NzI0fQ.VwqzoRhjd9CPlTWoS1I3kwOVKffVyx_c4YLwdOgAdGo
+GET http://localhost:3000/profile/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiS2FzaEB0ZXN0MTIzNC5jb20ifSwiaWF0IjoxNjEwNzY0NjA0LCJleHAiOjE2MTExMjQ2MDR9.mtFqoloeyD8cXlh-TClKeHl4-KU0GxZnHpAx18lMeQA
 
 ###
 
@@ -17,7 +17,8 @@ POST  http://localhost:3000/user/token
 Content-Type:application/json
 
 {
-    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY1MjFmZGU2YmRkMmRjMDBjOTgwMDQ0In0sImlhdCI6MTU5OTIxODc1NH0.bia_ZULXaWUxO0gsPfi3BjM30prl5M0lkMovHPbIn98"
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiS2FzaEB0ZXN0MTIzNC5jb20ifSwiaWF0IjoxNjEwNzY0NjA0fQ.yhc92tGOQfWDR2u0kWAMMGcqTxf9dJ6cSjRbXAh2GKI",
+    "id": "Kash@test1234.com"
 }
 
 ###
