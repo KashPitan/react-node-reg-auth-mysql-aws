@@ -10,6 +10,8 @@ const profileRoutes = require("./routes/profileRoutes");
 const BodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
+const Cors = require("cors");
+
 const sequelize = new Sequelize(
   process.env.RDS_DATABASE,
   process.env.RDS_USERNAME,
@@ -38,8 +40,11 @@ App.use(BodyParser.json());
 //parse/read the cookies sent with the requests
 App.use(cookieParser());
 
+//enable cross origin requests to this server
+App.use(Cors());
+
 //routes from routes folder
-App.use("/user", authRoutes);
+App.use("/auth", authRoutes);
 App.use("/profile", profileRoutes);
 
 App.listen(process.env.PORT || 4000, function () {

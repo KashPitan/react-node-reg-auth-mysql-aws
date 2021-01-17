@@ -16,7 +16,10 @@ const Login = () => {
     e.stopPropagation();
 
     try {
-      let res = await axios.post("/user/login", formDetails);
+      let res = await axios.post(
+        `${process.env.REACT_APP_AUTH_API_URL}/auth/login`,
+        formDetails
+      );
       if (res.status !== 200) {
         M.toast({ html: res.data.msg });
       }
@@ -39,7 +42,9 @@ const Login = () => {
   return (
     <>
       <div className="form-container">
-        <h1>Login</h1>
+        <h1>
+          <strong>Login</strong>
+        </h1>
         <form className="col s12">
           <div className="form-group">
             <div className="input-field col s6">
