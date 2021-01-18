@@ -10,9 +10,9 @@ dotenv.config();
 
 //get personal user data: route protected
 Router.get("/me", auth, async (req, res, next) => {
-  console.log("hello");
-  const header = req.header("Authorization");
-  const token = header && header.split(" ")[1];
+  // console.log("hello");
+  const token = req.token;
+  // console.log(req.token);
 
   try {
     //get current users id
