@@ -1,6 +1,7 @@
 GET http://localhost:3000/profile/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiS2FzaEB0ZXN0MTIzNC5jb20ifSwiaWF0IjoxNjEwNzY0NjA0LCJleHAiOjE2MTExMjQ2MDR9.mtFqoloeyD8cXlh-TClKeHl4-KU0GxZnHpAx18lMeQA
-
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiS2FzaEB0ZXN0MTIzNC5jb20ifSwiaWF0IjoxNjEwNzY0NjA0LCJleHAiOjE2MTExMjQ2MDR9.mtFqoloeyD8cXlh-TClKeHl4-KU0GxZnHpAx18lMeQA
+Cookie: test
+Set-Cookie: test=test;
 ###
 
 POST  http://localhost:3000/auth/login

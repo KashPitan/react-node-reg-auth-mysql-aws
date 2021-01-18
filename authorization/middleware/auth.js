@@ -11,16 +11,18 @@ function auth(req, res, next) {
   const header = req.header("Authorization");
 
   //header is "bearer [token]" so split string and take the second value from array
-  const token = header && header.split(" ")[1];
+  let token = header && header.split(" ")[1];
 
   //with cookie parser implementation can also get cookies using...
-  //const { accessToken, refreshToken } = req.cookies;
-
-  console.log("hi");
+  const { accessToken, refreshToken } = req.cookies;
   console.log(req.cookies);
 
+  if (token == null && req.cookies !== null) {
+    token = accessToken;
+  }
+
   //if token is not present in request header deny access
-  if (token == null) {
+  if (token === null) {
     return res
       .status(403)
       .send({ errors: [{ msg: "Not logged in so no access" }] });
