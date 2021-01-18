@@ -41,7 +41,7 @@ App.use(BodyParser.json());
 App.use(cookieParser());
 
 //enable cross origin requests to this server
-App.use(Cors());
+App.use(Cors({ credentials: true, origin: "http://localhost:5000" }));
 
 //routes from routes folder
 App.use("/auth", authRoutes);

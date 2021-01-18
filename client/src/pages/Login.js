@@ -20,10 +20,11 @@ const Login = () => {
         `${process.env.REACT_APP_AUTH_API_URL}/auth/login`,
         formDetails
       );
+      console.log(res);
+
       if (res.status !== 200) {
         M.toast({ html: res.data.msg });
       }
-      console.log("test");
 
       M.toast({ html: res.data.msg });
     } catch (err) {
