@@ -1,6 +1,22 @@
 import React from "react";
+import axios from "axios";
 
 const Navbar = () => {
+  const logoutOnClickHandler = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await axios.get(
+        `${process.env.REACT_APP_AUTH_API_URL}/auth/logout`,
+        { withCredentials: true, credentials: "include" }
+      );
+      if (res.status === 200) {
+        window.location = "/login";
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <nav>
@@ -17,6 +33,11 @@ const Navbar = () => {
             </li>
             <li>
               <a href="/myProfile">My Profile</a>
+            </li>
+            <li>
+              <a href="/login" onClick={(e) => logoutOnClickHandler(e)}>
+                Logout
+              </a>
             </li>
           </ul>
         </div>

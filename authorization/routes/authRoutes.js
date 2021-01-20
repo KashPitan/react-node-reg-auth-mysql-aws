@@ -93,10 +93,16 @@ Router.post(
 
         //send ok status, set cookies,send message response
         //httponly flag helps protect against xss attacks
+        //expiry set to 1 minute for test
         res
           .status(200)
-          .cookie("accessToken", accessToken, { httponly: true })
-          .cookie("refreshToken", refreshToken, { httponly: true })
+          .cookie("accessToken", accessToken, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 60000),
+          })
+          .cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+          })
           .send({ accessToken, refreshToken, msg: "Login Successful" });
       } else {
         return res
@@ -108,6 +114,18 @@ Router.post(
     }
   }
 );
+
+Router.get("/logout", async (req, res, next) => {
+  if (req.cookies) {
+    res
+      .status(200)
+      .clearCookie("accessToken")
+      .clearCookie("refreshToken")
+      .send({ msg: "successfully logged out" });
+  } else {
+    res.status(403).send({ msg: "not logged in" });
+  }
+});
 
 Router.post("/token", async (req, res, next) => {
   const refreshToken = req.body.token;

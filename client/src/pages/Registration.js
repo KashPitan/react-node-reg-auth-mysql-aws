@@ -23,7 +23,7 @@ const Registration = () => {
         formDetails
       );
       console.log(res);
-      if (res.status != 200) {
+      if (res.status !== 200) {
         M.toast({ html: res.data.msg });
       }
       M.toast({ html: res.data.msg, displayLength: 3000 });

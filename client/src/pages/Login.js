@@ -18,9 +18,13 @@ const Login = () => {
     try {
       let res = await axios.post(
         `${process.env.REACT_APP_AUTH_API_URL}/auth/login`,
-        formDetails
+        formDetails,
+        { withCredentials: true, credentials: "include" }
       );
       console.log(res);
+      if (res.status === 200) {
+        window.location = "/myProfile";
+      }
 
       if (res.status !== 200) {
         M.toast({ html: res.data.msg });
@@ -28,7 +32,7 @@ const Login = () => {
 
       M.toast({ html: res.data.msg });
     } catch (err) {
-      console.log(err.response.data);
+      // console.log(err.response.data);
       err.response.data.errors.forEach((element) => {
         M.toast({ html: element.msg });
       });
