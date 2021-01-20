@@ -15,7 +15,6 @@ function auth(req, res, next) {
 
   //with cookie parser implementation can also get cookies using...
   const { accessToken, refreshToken } = req.cookies;
-  console.log(req.cookies);
 
   if (token == null && req.cookies !== null) {
     token = accessToken;

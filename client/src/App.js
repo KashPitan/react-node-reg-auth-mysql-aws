@@ -4,7 +4,7 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import MyProfile from "./pages/MyProfile";
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
   return (
