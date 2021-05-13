@@ -15,7 +15,12 @@ const MyProfile = () => {
         console.log(res.data);
         setProfileInfo((prevState) => res.data.user);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        //TODO: implement redirect based on user authenticated state not api call
+        window.location = "/login";
+
+        console.log(err);
+      });
   }, []);
 
   return (
