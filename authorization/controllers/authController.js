@@ -44,7 +44,11 @@ module.exports.login_post = async (req, res, next) => {
     const { email, password } = req.body;
 
     //checks to see if the user with the input email exists
-    let user = await User.findOne({ where: { email } });
+    let user = await User.findOne({
+      attributes: { exclude: ["password", "refresh_token"] },
+      where: { email },
+      raw: true,
+    });
     if (!user) {
       return res.status(400).send({
         errors: [{ msg: "Account with entered email does not exist" }],
@@ -65,6 +69,7 @@ module.exports.login_post = async (req, res, next) => {
       let accessToken = generateAccessToken(payload);
       let refreshToken = generateRefreshToken(payload);
 
+      console.log(user);
       //send ok status, set cookies,send message response
       //httponly flag helps protect against xss attacks
       //expiry set to 1 minute for test
@@ -77,7 +82,7 @@ module.exports.login_post = async (req, res, next) => {
         .cookie("refreshToken", refreshToken, {
           httpOnly: true,
         })
-        .send({ accessToken, refreshToken, msg: "Login Successful" });
+        .send({ accessToken, refreshToken, msg: "Login Successful", user });
     } else {
       return res
         .status(400)
