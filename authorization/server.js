@@ -6,6 +6,7 @@ const { Sequelize } = require("sequelize");
 
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 const BodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -51,6 +52,7 @@ App.use(morgan("tiny"));
 //routes from routes folder
 App.use("/auth", authRoutes);
 App.use("/profile", profileRoutes);
+App.use("/search", searchRoutes);
 
 App.listen(process.env.PORT || 4000, function () {
   if (process.env.PORT) {
