@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import UserSearchItem from "./UserSearchItem";
+import UserList from "./UserList";
 
 const UserSearch = () => {
   const [searchText, setSearchText] = useState(null);
-  const [foundUsers, setfoundUsers] = useState([]);
+  const [foundUsers, setfoundUsers] = useState(null);
+
+  useEffect(() => {
+    console.log(foundUsers);
+  }, [foundUsers]);
 
   const searchButtonHandler = async (e) => {
     e.preventDefault();
@@ -22,7 +28,6 @@ const UserSearch = () => {
 
   const onChange = (e) => {
     setSearchText(e.target.value);
-    console.log(searchText);
   };
 
   return (
@@ -48,6 +53,7 @@ const UserSearch = () => {
           </div>
         </form>
       </div>
+      <div className="row">{foundUsers && <UserList users={foundUsers} />}</div>
     </>
   );
 };
