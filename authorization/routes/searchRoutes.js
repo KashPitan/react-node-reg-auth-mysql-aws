@@ -4,11 +4,11 @@ const dotenv = require("dotenv");
 
 const { auth } = require("../middleware/auth");
 
-const profileController = require("../controllers/profileController");
+const searchController = require("../controllers/searchController");
 
 dotenv.config();
 
 //get personal user data: route protected
-Router.get("/me", auth, profileController.me_get);
+Router.get("/user", /*auth,*/ searchController.user_search_get);
 
 module.exports = Router;

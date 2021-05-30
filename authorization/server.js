@@ -6,9 +6,12 @@ const { Sequelize } = require("sequelize");
 
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 const BodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+
+const morgan = require("morgan");
 
 const Cors = require("cors");
 
@@ -26,7 +29,7 @@ const sequelize = new Sequelize(
 sequelize
   .authenticate()
   .then(function (err) {
-    console.log("Connection has been established successfully.");
+    console.log("Databse connection has been established successfully.");
   })
   .catch(function (err) {
     console.log("Unable to connect to the database:", err);
@@ -43,9 +46,13 @@ App.use(cookieParser());
 //enable cross origin requests to this server
 App.use(Cors({ credentials: true, origin: "http://localhost:5000" }));
 
+//morgan middleware for logging http requests
+App.use(morgan("tiny"));
+
 //routes from routes folder
 App.use("/auth", authRoutes);
 App.use("/profile", profileRoutes);
+App.use("/search", searchRoutes);
 
 App.listen(process.env.PORT || 4000, function () {
   if (process.env.PORT) {
