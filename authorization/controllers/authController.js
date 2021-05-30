@@ -42,10 +42,11 @@ module.exports.login_post = async (req, res, next) => {
   }
   try {
     const { email, password } = req.body;
+    console.log(req.body);
 
     //checks to see if the user with the input email exists
     let user = await User.findOne({
-      attributes: { exclude: ["password", "refresh_token"] },
+      attributes: { exclude: ["refresh_token"] },
       where: { email },
       raw: true,
     });
@@ -54,6 +55,8 @@ module.exports.login_post = async (req, res, next) => {
         errors: [{ msg: "Account with entered email does not exist" }],
       });
     }
+
+    console.log(password, user.password);
 
     //checks if the password entered matches the user found
     let passwordMatch = Bcrypt.compareSync(password, user.password);
@@ -89,6 +92,7 @@ module.exports.login_post = async (req, res, next) => {
         .send({ errors: [{ msg: "Password is incorrect" }] });
     }
   } catch (err) {
+    console.log(err);
     res.status(500).send({ errors: [{ msg: "Server Error" }] });
   }
 };
