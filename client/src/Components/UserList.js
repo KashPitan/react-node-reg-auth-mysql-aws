@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import UserSearchItem from "./UserSearchItem";
 import { v4 as uuidv4 } from "uuid";
 
 const UserList = ({ users }) => {
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
-
-  useEffect(() => {
-    console.log(users);
-  }, []);
   return (
     <>
       {users && (
