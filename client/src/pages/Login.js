@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "materialize-css/dist/css/materialize.min.css";
-import M from "materialize-css/dist/js/materialize.min.js";
-import axios from "axios";
+import PropTypes from "prop-types";
 
-const Login = () => {
+import { connect } from "react-redux";
+import { login } from "../redux/actions/authActions";
+
+const Login = ({ login }) => {
   const [formDetails, setFormDetails] = useState({
     password: "",
     email: "",
@@ -14,35 +16,12 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    try {
-      let res = await axios.post(
-        `${process.env.REACT_APP_AUTH_API_URL}/auth/login`,
-        formDetails,
-        { withCredentials: true, credentials: "include" }
-      );
-      console.log(res);
-      if (res.status === 200) {
-        window.location = "/myProfile";
-      }
-
-      if (res.status !== 200) {
-        M.toast({ html: res.data.msg });
-      }
-
-      M.toast({ html: res.data.msg });
-    } catch (err) {
-      // console.log(err.response.data);
-      err.response.data.errors.forEach((element) => {
-        M.toast({ html: element.msg });
-      });
-    }
+    await login(formDetails);
   };
 
   //updates the state as the form information changes
   const onChange = (e) => {
     setFormDetails({ ...formDetails, [e.target.name]: e.target.value });
-    // console.log(formDetails);
   };
   return (
     <>
@@ -95,4 +74,8 @@ const Login = () => {
     </>
   );
 };
-export default Login;
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+};
+export default connect(null, { login })(Login);

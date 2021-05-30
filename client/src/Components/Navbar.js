@@ -1,20 +1,14 @@
 import React from "react";
-import axios from "axios";
+import { BrowserRouter as Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+import { connect } from "react-redux";
+import { logout } from "../redux/actions/authActions";
+
+const Navbar = ({ user: { user }, isAuthenticated, logout }) => {
   const logoutOnClickHandler = async (e) => {
     e.preventDefault();
-    try {
-      let res = await axios.get(
-        `${process.env.REACT_APP_AUTH_API_URL}/auth/logout`,
-        { withCredentials: true, credentials: "include" }
-      );
-      if (res.status === 200) {
-        window.location = "/login";
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    logout();
   };
 
   return (
@@ -25,20 +19,32 @@ const Navbar = () => {
             Rave
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li>
-              <a href="/register">Register</a>
-            </li>
-            <li>
-              <a href="/login">Login</a>
-            </li>
-            <li>
-              <a href="/myProfile">My Profile</a>
-            </li>
-            <li>
-              <a href="/login" onClick={(e) => logoutOnClickHandler(e)}>
-                Logout
-              </a>
-            </li>
+            {!isAuthenticated && (
+              <>
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+              </>
+            )}
+
+            {isAuthenticated && (
+              <>
+                <li>
+                  <Link to="/myProfile">My Profile</Link>
+                </li>
+                <li>
+                  <Link to="/" onClick={(e) => logoutOnClickHandler(e)}>
+                    Logout
+                  </Link>
+                  {/* <a href="/login" onClick={(e) => logoutOnClickHandler(e)}>
+                    Logout
+                  </a> */}
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
@@ -46,4 +52,16 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+// export default Navbar;
+Navbar.propTypes = {
+  user: PropTypes.object,
+  isAuthenticaed: PropTypes.bool,
+  logout: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
